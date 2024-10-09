@@ -8,12 +8,11 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-# Set page configuration for a wide layout
+
 st.set_page_config(page_title='Laptop Prices Data Exploration', layout='wide')
 
 
 
-# Load the dataset
 @st.cache_data
 def load_data():
     df = pd.read_csv('laptop_prices.csv')
@@ -21,46 +20,116 @@ def load_data():
 
 df = load_data()
 
-# Custom styling for Streamlit components
+
 st.markdown(
     """
     <style>
+    .stApp {
+        background-color: #0B0C10; /* Dark background for the entire app */
+    }
+    
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #0B0C10; /* Dark background for the entire app */
+        color: #ffffff; /* Light text color */
+    }
+  
+    h1, h2, h3, h4 {
+        color: #ffffff; /* Light headers */
+    }
+    
+    .sidebar .sidebar-content {
+        background-color: #2c2c2c; /* Dark sidebar */
+        color: #ffffff; /* Light text in sidebar */
+    }
+
+    .css-1aumxhk {
+        background-color: #222; /* Dark background for containers */
+    }
+
     .rounded-border {
         border-radius: 15px;
-        border: 1px solid #ddd;
+        border: 1px solid #444; /* Slightly lighter border */
         padding: 10px;
         margin-bottom: 20px;
-        background-color: #f9f9f9;
-        box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        background-color: #2b2b2b; /* Dark background for cards */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    .stButton>button {
+        width: 100%;
+        font-weight: bold;
+        background: linear-gradient(90deg, #45A29E, #4e69ba); /* Facebook blue gradient */
+        color: white; /* Text color */
+        border-radius: 8px;
+        height: 50px;
+        border: none;
+        transition: background 0.3s; /* Smooth transition */
+    }
+
+    .stButton>button:hover {
+        background: linear-gradient(90deg, #66FCF1, #3d5a99); /* Darker gradient on hover */
+        color: #fff; /* Ensure text stays white */
+    }
+
+    .stButton>button:active {
+        background: linear-gradient(90deg, #66FCF1, #3d5a99); /* Keep the hover state on press */
+        color: #fff; /* Keep text color white */
+    }
+
+    .stButton>button:focus {
+        outline: none;
+        border: none;
+    }
+    
+    .st-expander {
+        background-color: #2c2c2c; /* Dark background for expanders */
+        border: 1px solid #444; /* Darker border */
+        border-radius: 5px;
+        padding: 15px;
+    }
+    
+    .st-dataframe {
+        background-color: #222; /* Dark background for dataframes */
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
     }
     </style>
-    """, unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True
+)
 
-# Set up navigation columns
 nav_col1, main_col, nav_col2 = st.columns([1, 5, 1]) 
 
 # Initialize selected_tab in session state if not already set
 if 'selected_tab' not in st.session_state:
     st.session_state.selected_tab = "Home"
 
-# Add left navigation button
+
 with nav_col1:
     st.write("")
 
-# Add right navigation button
 with nav_col2:
     st.write("")
     
 
 with main_col:
-    st.title('Laptop Prices Data Exploration')
+
+    st.markdown(
+        """
+        <div style="background-color: #1F2833; padding: 10px; border-radius: 10px;">
+            <h1 style="text-align: center; color: #;">💻 Laptop Prices Data Exploration</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     st.markdown(
         """
         <style>
         .stButton>button {
             width: 100%;
-            font-weight: bold;
+            font-weight: 900;
             height: 50px; /* You can adjust this height as needed */
         }
         </style>
@@ -68,53 +137,53 @@ with main_col:
         unsafe_allow_html=True
     )
 
- # Create a container for the tab buttons
     tab1, tab2, tab3, tab4, tab5, tab6 = st.columns(6)
 
+ 
     with tab1:
-        if st.button("Introduction", key="tab_home"):
+        if st.button("📖 Introduction", key="tab_home"):
             selected_tab = "Home"
     with tab2:
-        if st.button("Count Analysis", key="tab_count"):
+        if st.button("📊 Count Analysis", key="tab_count"):
             selected_tab = "Count Analysis"
 
     with tab3:
-        if st.button("Key Statistics", key="tab_statistics"):
+        if st.button("📈 Key Statistics", key="tab_statistics"):
             selected_tab = "Key Statistics"
 
     with tab4:
-        if st.button("Feature Analysis", key="tab_laptop_features"):
+        if st.button("🔎 Feature Analysis", key="tab_laptop_features"):
             selected_tab = "Feature Analysis"
 
     with tab5:
-        if st.button("Multivarient Analysis", key="tab_Multivarient_analysis"):
-            selected_tab = "Multivarient Analysis"
+        if st.button("🔬 Multivariate Analysis", key="tab_multivarient_analysis"):
+            selected_tab = "Multivariate Analysis"
 
     with tab6:
-        if st.button("Conclusion", key="tab_Conclusion"):
+        if st.button("🔚 Conclusion", key="tab_conclusion"):
             selected_tab = "Conclusion"
-
-    # Default tab
+    st.markdown("<hr style='border: 1px solid #444; margin-top: 10px; margin-bottom: 20px;'>", unsafe_allow_html=True)
+    
     if 'selected_tab' not in st.session_state:
         st.session_state.selected_tab = "Home"
 
-    # Update the selected tab
     if 'selected_tab' in locals() and selected_tab:
         st.session_state.selected_tab = selected_tab
 
     font_size = 12  
     title_size = 16  
 
-    # Home Tab
+
     if st.session_state.selected_tab == "Home":
 
         with st.container():
-            col1, col2 = st.columns(2)
+            col1, col2 =  st.columns([3, 2]) 
             
             with col1:
-                st.subheader('About the Data!')
-                st.write('The dataset used in this analysis is a collection of laptop prices taken from Kaggle. The author, Muhammet Varli, did not specify the collection period but it was updated 4 years ago. The dataset contains details of 1,276 laptops, including technical specifications such as screen size, RAM, storage, CPU, GPU, and weight. The dataset also includes the price of each laptop in euros. The data provides valuable insights into how different features affect laptop pricing and was last updated approximately 4 years ago. The dataset contains both numerical and categorical variables, allowing for descriptive statistics and visual analyses.')
-                st.write('This research seeks to determine elements that affect the price and value of a laptop depending on its specs, such as RAM capacity, resolution, and CPU frequency. To achieve this purpose, descriptive statistics and visualizations will be used to discover connections or patterns, as well as device differences, such as budget models vs high-end models, to help us understand what factors affect market value.')
+                st.subheader('About the Data:')
+                st.write('The dataset used in this analysis is a collection of **laptop prices** taken from **Kaggle**. The author, **Muhammet Varli**, did not specify the collection period but it was updated **4 years ago**. The dataset contains details of **1,276 laptops**, including technical specifications such as **screen size**, **RAM**, **storage**, **CPU**, **GPU**, and **weight**. The dataset also includes the price of each laptop in **euros**. The data provides valuable insights into how different features affect **laptop pricing** and was last updated approximately **4 years ago**. The dataset contains both **numerical** and **categorical variables**, allowing for descriptive statistics and visual analyses.')
+
+                st.write('This research seeks to determine elements that affect the **price** and **value** of a laptop depending on its specs, such as **RAM capacity**, **resolution**, and **CPU frequency**. To achieve this purpose, descriptive statistics and **visualizations** will be used to discover connections or patterns, as well as device differences, such as **budget models vs high-end models**, to help us understand what factors affect **market value**.')
             with col2:
                 with st.expander("Summary",expanded=True):
                     st.subheader('Data Preview')
@@ -132,8 +201,8 @@ with main_col:
                 columns_to_plot = ['Company', 'TypeName', 'Inches', 'Ram', 'OS', 'Screen', 'Touchscreen', 'IPSpanel', 'RetinaDisplay', 'PrimaryStorageType', 'CPU_company', 'GPU_company']
                 selected_column = st.selectbox("", columns_to_plot, label_visibility="collapsed")
                 
-                # Create a smaller graph for the individual column count
-                fig1, ax1 = plt.subplots(figsize=(6, 3))  # Consistent size for all plots
+
+                fig1, ax1 = plt.subplots(figsize=(6, 3))  
                 sns.countplot(y=selected_column, data=df, palette='viridis', order=df[selected_column].value_counts().index, ax=ax1)
                 ax1.set_ylabel('', fontsize=font_size)
                 ax1.set_xlabel('Count', fontsize=font_size)
@@ -146,17 +215,17 @@ with main_col:
 
                 option = st.selectbox('', ('CPU Models', 'GPU Models'), label_visibility="collapsed")
 
-                # Set up the figure for the top models
-                fig2, ax2 = plt.subplots(figsize=(6, 3.15))  # Consistent size for all plots
+     
+                fig2, ax2 = plt.subplots(figsize=(6, 3.15))
 
                 if option == 'CPU Models':
-                    # Plot CPU distribution
+
                     sns.countplot(data=df, y='CPU_model', palette='viridis', order=df['CPU_model'].value_counts().head(15).index, ax=ax2)
                     ax2.set_ylabel('CPU Model', fontsize=font_size)
                     ax2.set_xlabel('Count', fontsize=font_size)
 
                 else:
-                    # Plot GPU distribution
+ 
                     sns.countplot(data=df, y='GPU_model', palette='viridis', order=df['GPU_model'].value_counts().head(15).index, ax=ax2)
                     ax2.set_ylabel('GPU Model', fontsize=font_size)
                     ax2.set_xlabel('Count', fontsize=font_size)
@@ -165,7 +234,7 @@ with main_col:
                 plt.yticks(fontsize=font_size)
                 plt.tight_layout()
 
-                # Show the plot in Streamlit
+    
                 st.pyplot(fig2)
 
         with st.expander("Interpretation", expanded=True):
@@ -186,13 +255,13 @@ with main_col:
             """)
 
 
-    # Key Statistics Tab
+ 
     elif st.session_state.selected_tab == "Key Statistics":
         st.subheader('Key Statistics')
 
         col1, col2 = st.columns(2)
         with col1:
-                fig, ax = plt.subplots(figsize=(6, 3))  # Smaller graph size
+                fig, ax = plt.subplots(figsize=(6, 3))  
                 sns.histplot(df['Price_euros'], bins=60, kde=True, ax=ax)
                 ax.set_title('Distribution of Product Prices', fontsize=title_size)
                 ax.set_xlabel('Price (euros)', fontsize=font_size)
@@ -210,10 +279,10 @@ with main_col:
 
         col1, col2 = st.columns(2)
         with col2:
-            # RAM Distribution
+       
                 tabs = st.tabs(["RAM", "Screen Size", "Weight", "Storage", "CPU Frequency"])
 
-                # RAM Distribution Tab
+          
                 with tabs[0]:
                     st.write("**Most Common RAM (Mode):** 8GB")
                     st.write("**Mean RAM:** 8.44GB")
@@ -221,7 +290,7 @@ with main_col:
                     st.write("**Range:** 2GB to 64GB")
                     st.write("**Explanation:** The mean RAM is approximately 8.44GB, with 8GB being the most common configuration. Higher RAM capacities, such as 16GB and above, are associated with performance-oriented models, which often lead to higher prices. The range of RAM (from 2GB to 64GB) highlights the availability of both entry-level and high-performance laptops. The standard deviation of 5.10GB reflects the variability in RAM capacities, from basic models to advanced, high-end configurations.")
 
-                # Screen Size Distribution Tab
+             
                 with tabs[1]:
                     st.write("**Most Common Screen Size:** 15.6 inches")
                     st.write("**Mean Screen Size:** 15.02 inches")
@@ -229,14 +298,14 @@ with main_col:
                     st.write("**Range:** 10.1 inches to 18.4 inches")
                     st.write("**Explanation:** The mean screen size of 15.02 inches reflects the popularity of mid-sized laptops, with 15.6 inches being the most common. The relatively small standard deviation of 1.43 inches indicates that most laptops fall within a standard range, typically between 14 and 16 inches. This suggests that mid-sized laptops dominate the market, with smaller or larger screens being less common.")
 
-                # Weight Distribution Tab
+
                 with tabs[2]:
                     st.write("**Mean Weight:** 2.04 kg")
                     st.write("**Standard Deviation:** 0.67 kg")
                     st.write("**Range:** 0.69 kg to 4.70 kg")
                     st.write("**Explanation:** The average laptop in the dataset weighs around 2.04 kg, with a range from ultra-light models to heavier gaming or workstation laptops. The standard deviation of 0.67 kg indicates moderate variability, with most laptops falling within a common weight range, making them portable for general users.")
 
-                # Storage Distribution Tab
+ 
                 with tabs[3]:
                     st.write("**Most Common Primary Storage:** 256GB SSD")
                     st.write("**Mean Primary Storage:** 444.52GB")
@@ -244,23 +313,23 @@ with main_col:
                     st.write("**Range:** 8GB to 2048GB")
                     st.write("**Explanation:** The data shows a clear preference for SSD storage, with 256GB SSDs being the most common configuration. The mean storage capacity is around 444.52GB, with higher-end laptops offering 512GB or more. The large standard deviation of 365.54GB suggests considerable variability in storage configurations, from budget models with lower storage to high-end devices with more extensive storage options.")
 
-                # CPU Frequency Distribution Tab
+
                 with tabs[4]:
                     st.write("**Mean CPU Frequency:** 2.30 GHz")
                     st.write("**Standard Deviation:** 0.50 GHz")
                     st.write("**Range:** 0.90 GHz to 3.60 GHz")
                     st.write("**Explanation:** The mean CPU frequency of 2.30 GHz suggests that most laptops in the dataset are equipped with mid-range processors, capable of handling general tasks. The standard deviation of 0.50 GHz indicates that there are some laptops with significantly higher or lower processor speeds, depending on the target market (e.g., budget vs. gaming laptops).")
-            # Individual Price Distribution
+  
         with col1:
 
             with st.expander("Summary",expanded=True):
             
                 st.write(df.describe())
 
-    # Price by Features Tab
+
     elif st.session_state.selected_tab == "Feature Analysis":
 
-        # Create a dictionary to map features to their insights
+
         insights_dict = {
             'Company': "High-end brands like Razer, Microsoft, and Google have higher median prices, indicating their premium positioning in the market. "
                     "On the other hand, brands such as Vero, Chuwi, and LG have a lower median price, showing they target the budget or mid-range market. "
@@ -273,69 +342,74 @@ with main_col:
                     "This suggests that higher-resolution screens significantly contribute to the overall laptop cost."
         }
 
-        # Dummy insights for numeric features
+
         numeric_insights_dict = {
-            'Ram': "Higher RAM usually leads to better multitasking capabilities and overall performance.",
-            'Weight': "Laptops with lower weight are generally more portable and favored by users who travel frequently.",
-            'CPU_freq': "Higher CPU frequencies indicate better processing power, affecting the laptop's speed and efficiency.",
-            'PrimaryStorage': "Laptops with larger storage capacities can store more data, impacting performance based on storage type."
+            'Ram': "This graph demonstrates a general trend where laptops with higher RAM capacities tend to have higher prices. Models with 15 GB of RAM are mostly under 2000 euros, while those with 30 GB or more see prices ranging between 2000 and 4000 euros. Outliers at the high end (around 60 GB) indicate that laptops with extremely high RAM can go up to and beyond 6000 euros, suggesting a premium for greater memory capacity.",
+            
+            'Weight': "The data shows no consistent relationship between weight and price, indicating that weight alone does not significantly influence laptop pricing. Laptops across all weight categories (from around 0.8 kg to 4 kg) are found in a broad price range from under 1000 to over 4000 euros. Some lighter laptops priced at the higher end could reflect premium lightweight models, while heavier models might include performance-focused laptops with more hardware, hence higher prices.",
+            
+            'CPU_freq': "There is a positive correlation between CPU frequency and price, especially visible at the higher frequency range. Laptops with a CPU frequency of around 1.0 GHz are generally priced below 2000 euros, whereas those with CPU frequencies of 2.5 GHz and above range from mid-tier (around 1000 euros) up to 6000 euros. This indicates that faster processors are often associated with more expensive laptops, reflecting their increased performance capabilities.",
+            
+            'PrimaryStorage': "The relationship between primary storage and price indicates that laptops with higher storage capacities generally cost more. Laptops with 400 GB or 800 GB of storage tend to be concentrated in the lower price range (under 2000 euros). However, laptops with 1600 GB and 2000 GB of storage often exceed 2000 euros, with some models reaching up to 6000 euros. This suggests that higher storage options contribute significantly to the overall price, appealing to users with greater storage requirements."
         }
 
-        col1, col2 = st.columns(2)
+
+        col1, col_mid, col2 = st.columns([1, 0.1, 1])  
 
         with col1:
             st.subheader('Price vs Categorical Features')
             selected_feature = st.selectbox("", list(insights_dict.keys()), label_visibility="collapsed")
 
-            # Create the boxplot immediately after feature selection
-            fig, ax = plt.subplots(figsize=(8, 4))  # Slightly larger for better readability
+ 
+            fig, ax = plt.subplots(figsize=(8, 4)) 
             sns.boxplot(data=df, x=selected_feature, y='Price_euros', palette='Spectral', ax=ax)
             ax.tick_params(axis='x', rotation=45)
-            ax.set_ylabel('Price (euros)', fontsize=font_size)  # Customize ylabel font size
+            ax.set_ylabel('Price (euros)', fontsize=12)  
             ax.set_xlabel('')
-            # Display the boxplot
+           
             st.pyplot(fig)
 
-            # Immediately display insights related to the selected feature
+         
             st.write(f"**{selected_feature}:** {insights_dict[selected_feature]}")
+
+        with col_mid:
+            st.write("")
 
         with col2:
             st.subheader('Price vs Numeric Features')
             num_features = ['Ram', 'Weight', 'CPU_freq', 'PrimaryStorage']
             selected_numeric_feature = st.selectbox("Select a feature", num_features, label_visibility="collapsed")
 
-            # Create the scatter plot with Weight vs Price_euros if Weight is selected
-            fig, ax = plt.subplots(figsize=(10, 6))
+      
+            fig, ax = plt.subplots(figsize=(8, 4.325))
             if selected_numeric_feature == 'Weight':
                 sns.scatterplot(x='Weight', y='Price_euros', data=df, hue='TypeName', alpha=0.7, ax=ax)
-                ax.set_xlabel('Weight (kg)', fontsize=font_size)  # Customize xlabel font size
-                ax.set_ylabel('Price (euros)', fontsize=font_size)  # Customize ylabel font size
+                ax.set_xlabel('Weight (kg)', fontsize=12)  e
+                ax.set_ylabel('Price (euros)', fontsize=12) 
             else:
-                # Scatter plot for other selected features
+          
                 sns.scatterplot(data=df, x=selected_numeric_feature, y='Price_euros', hue='TypeName', alpha=0.7, ax=ax)
-                ax.set_xlabel(selected_numeric_feature, fontsize=font_size)  # Customize xlabel font size
-                ax.set_ylabel('Price (euros)', fontsize=font_size)  # Customize ylabel font size
+                ax.set_xlabel(selected_numeric_feature, fontsize=12)  
+                ax.set_ylabel('Price (euros)', fontsize=12)  
 
             ax.grid()
             ax.legend()
             st.pyplot(fig)
 
-            # Immediately display dummy insights related to the selected numeric feature
+            
             st.write(f"**{selected_numeric_feature}:** {numeric_insights_dict[selected_numeric_feature]}")
 
-
-
-    # Price vs Numeric Features Tab
-    elif st.session_state.selected_tab == "Multivarient Analysis": 
+  
+    elif st.session_state.selected_tab == "Multivariate Analysis": 
         
-        # Adjusting column width: 3 parts for col1 and 1 part for col2
+
         col1, col2 = st.columns([3, 1])
 
-        # Count Plot in first column
+  
         with col1:
 
             st.subheader('Correlation Heatmap')
-            # Label encoding categorical features for correlation analysis
+    
             label_encoder = LabelEncoder()
 
             object_columns = df.select_dtypes(include=['object']).columns
@@ -345,14 +419,14 @@ with main_col:
                     
             corr = df.select_dtypes(include=[np.number]).corr()
 
-            fig, ax = plt.subplots(figsize=(9, 4))  # Smaller heatmap size
-            sns.heatmap(corr, cmap='coolwarm', linewidths=0.5, ax=ax)  # Removed annot=True
-            ax.set_xticklabels(ax.get_xticklabels(), fontsize=8)  # X-tick labels
-            ax.set_yticklabels(ax.get_yticklabels(), fontsize=font_size)  # Y-tick labels
+            fig, ax = plt.subplots(figsize=(9, 4)) 
+            sns.heatmap(corr, cmap='coolwarm', linewidths=0.5, ax=ax)  
+            ax.set_xticklabels(ax.get_xticklabels(), fontsize=8)  
+            ax.set_yticklabels(ax.get_yticklabels(), fontsize=font_size)  
                 
             st.pyplot(fig)
 
-        # Price Distribution in second column
+     
         with col2:
             st.subheader('Summary')
 
@@ -361,7 +435,7 @@ with main_col:
 
     elif st.session_state.selected_tab == "Conclusion":
 
-        # Correlation Analysis Section
+  
         st.subheader("Correlation Analysis")
         
         with st.expander("Key Relationships between Features and Laptop Prices", expanded=True):
@@ -376,7 +450,7 @@ with main_col:
             In summary, RAM, screen size, CPU/GPU capabilities, and weight are the most influential factors driving laptop prices in this dataset, while other attributes have lesser but noticeable effects.
             """)
 
-        # Conclusion Section
+   
         st.subheader("Final Insights")
         
         with st.expander("Summary of Key Factors", expanded=True):
