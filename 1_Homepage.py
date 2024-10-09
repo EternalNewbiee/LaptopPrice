@@ -384,7 +384,7 @@ with main_col:
             fig, ax = plt.subplots(figsize=(8, 4.325))
             if selected_numeric_feature == 'Weight':
                 sns.scatterplot(x='Weight', y='Price_euros', data=df, hue='TypeName', alpha=0.7, ax=ax)
-                ax.set_xlabel('Weight (kg)', fontsize=12)  e
+                ax.set_xlabel('Weight (kg)', fontsize=12)
                 ax.set_ylabel('Price (euros)', fontsize=12) 
             else:
           
